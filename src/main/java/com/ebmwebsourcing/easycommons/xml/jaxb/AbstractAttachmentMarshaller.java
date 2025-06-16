@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2017-2023 Linagora
- * 
+ *
  * This program/library is free software: you can redistribute it and/or modify
  * it under the terms of the New BSD License (3-clause license).
  *
@@ -21,9 +21,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.UUID;
 
-import javax.activation.DataHandler;
-import javax.activation.DataSource;
-import javax.xml.bind.attachment.AttachmentMarshaller;
+import jakarta.activation.DataHandler;
+import jakarta.activation.DataSource;
+import jakarta.xml.bind.attachment.AttachmentMarshaller;
 
 public abstract class AbstractAttachmentMarshaller extends AttachmentMarshaller {
 

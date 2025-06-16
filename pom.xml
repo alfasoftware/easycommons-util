@@ -63,13 +63,13 @@
       
       <dollar>$</dollar>
 
-      <jaf.version>1.2.2</jaf.version>
-      <jaxb.binding.api.version>2.3.3</jaxb.binding.api.version>
-      <jaxb.version>2.3.5</jaxb.version>
-      <jaxb2-basics.version>0.11.1</jaxb2-basics.version>
+      <jaf.version>2.0.1</jaf.version>
+      <jaxb.binding.api.version>3.0.1</jaxb.binding.api.version>
+      <jaxb.version>3.0.2</jaxb.version>
+      <jaxb-plugin.version>3.0.1</jaxb-plugin.version>
+      <jaxb2-basics.version>2.0.15</jaxb2-basics.version>      
 
-  </properties>
-
+   </properties>
 
    <dependencies>
       <!-- from easycommons-parent -->
@@ -135,9 +135,17 @@
          <version>1.4.1</version>
       </dependency>
       <dependency>
-         <groupId>com.sun.mail</groupId>
-         <artifactId>jakarta.mail</artifactId>
+         <groupId>jakarta.mail</groupId>
+         <artifactId>jakarta.mail-api</artifactId>
+         <version>2.1.3</version>         
          <scope>test</scope>
+         <exclusions>
+            <exclusion>
+               <!-- Already included in com.sun.activation:jakarta.activation -->
+               <groupId>jakarta.activation</groupId>
+               <artifactId>jakarta.activation-api</artifactId>
+            </exclusion>
+         </exclusions>
       </dependency>
    </dependencies>
 
@@ -180,39 +188,39 @@
             <artifactId>relaxng-datatype</artifactId>
             <version>${jaxb.version}</version>
          </dependency>
-         <dependency>
-            <groupId>org.jvnet.jaxb2_commons</groupId>
-            <artifactId>jaxb2-basics-runtime</artifactId>
-            <version>${jaxb2-basics.version}</version>
-         </dependency>
-         
+          <dependency>
+            <groupId>org.jvnet.jaxb</groupId>
+            <artifactId>jaxb-plugins-runtime</artifactId>
+            <version>3.0.1</version>
+          </dependency>
+                   
          <!-- JAX-WS -->
          <dependency>
             <groupId>jakarta.xml.soap</groupId>
             <artifactId>jakarta.xml.soap-api</artifactId>
-            <version>1.4.2</version>
+            <version>3.0.2</version>
          </dependency>
          <dependency>
             <groupId>jakarta.xml.ws</groupId>
             <artifactId>jakarta.xml.ws-api</artifactId>
-            <version>2.3.3</version>
+            <version>3.0.1</version>
          </dependency>
          <dependency>
             <groupId>jakarta.jws</groupId>
             <artifactId>jakarta.jws-api</artifactId>
-            <version>2.1.0</version>
+            <version>3.0.0</version>
          </dependency>
          <dependency>
              <groupId>com.sun.xml.ws</groupId>
              <artifactId>jaxws-rt</artifactId>
-             <version>2.3.3</version>
+             <version>3.0.2</version>
          </dependency>
          
          <!-- JAX-RS -->
          <dependency>
             <groupId>jakarta.ws.rs</groupId>
             <artifactId>jakarta.ws.rs-api</artifactId>
-            <version>2.1.6</version>
+            <version>3.1.0</version>
          </dependency>
          
          <!-- SOAP with Attachments -->
@@ -233,7 +241,7 @@
          <dependency>
             <groupId>jakarta.annotation</groupId>
             <artifactId>jakarta.annotation-api</artifactId>
-            <version>1.3.5</version>
+            <version>2.1.1</version>
          </dependency>
          
          <!-- Corba/RMI-IIOP -->
@@ -247,7 +255,7 @@
          <dependency>
             <groupId>jakarta.jms</groupId>
             <artifactId>jakarta.jms-api</artifactId>
-            <version>2.0.3</version>
+            <version>3.1.0</version>
          </dependency>
          
       </dependencies>
@@ -1069,9 +1077,9 @@
                </executions>
             </plugin>
             <plugin>
-               <groupId>org.jvnet.jaxb2.maven2</groupId>
-               <artifactId>maven-jaxb2-plugin</artifactId>
-               <version>0.14.0</version>
+               <groupId>org.jvnet.jaxb</groupId>
+               <artifactId>jaxb-maven-plugin</artifactId>
+               <version>3.0.1</version>
                <executions>
                   <execution>
                      <id>generate</id>
@@ -1080,19 +1088,20 @@
                      </goals>
                   </execution>
                </executions>
-               <configuration>
+                <configuration>
                   <extension>true</extension>
                   <args>
-                     <!-- Careful not to add pluging that modify the behaviour of equals
-                           or hashCode without properly evaluating the potential problems it introduces -->
-                     <arg>-XtoString</arg>
+                    <arg>-XtoString</arg>
+                    <arg>-Xequals</arg>
+                    <arg>-XhashCode</arg>
+                    <arg>-Xcopyable</arg>
                   </args>
                   <plugins>
-                     <plugin>
-                        <groupId>org.jvnet.jaxb2_commons</groupId>
-                        <artifactId>jaxb2-basics</artifactId>
-                        <version>${jaxb2-basics.version}</version>
-                     </plugin>
+                    <plugin>
+                      <groupId>org.jvnet.jaxb</groupId>
+                      <artifactId>jaxb-plugins</artifactId>
+                      <version>3.0.1</version>
+                    </plugin>
                   </plugins>
                </configuration>
             </plugin>

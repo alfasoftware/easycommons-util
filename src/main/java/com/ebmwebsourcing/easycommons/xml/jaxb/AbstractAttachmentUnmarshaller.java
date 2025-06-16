@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2017-2023 Linagora
- * 
+ *
  * This program/library is free software: you can redistribute it and/or modify
  * it under the terms of the New BSD License (3-clause license).
  *
@@ -17,8 +17,8 @@ package com.ebmwebsourcing.easycommons.xml.jaxb;
 
 import java.io.IOException;
 
-import javax.activation.DataHandler;
-import javax.xml.bind.attachment.AttachmentUnmarshaller;
+import jakarta.activation.DataHandler;
+import jakarta.xml.bind.attachment.AttachmentUnmarshaller;
 
 import com.ebmwebsourcing.easycommons.stream.EasyByteArrayOutputStream;
 

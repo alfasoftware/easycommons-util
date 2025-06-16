@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2019-2023 Linagora
- * 
+ *
  * This program/library is free software: you can redistribute it and/or modify
  * it under the terms of the New BSD License (3-clause license).
  *
@@ -21,8 +21,8 @@ import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
 
-import javax.activation.DataHandler;
-import javax.mail.util.ByteArrayDataSource;
+import jakarta.activation.DataHandler;
+import jakarta.mail.util.ByteArrayDataSource;
 
 import org.junit.Test;
 
