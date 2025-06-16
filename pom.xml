@@ -17,19 +17,69 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-   <parent>
-      <groupId>org.ow2.easycommons</groupId>
-      <artifactId>easycommons-parent</artifactId>
-      <version>1.2.1</version>
-      <relativePath>../parent/pom.xml</relativePath>
-   </parent>
-
   <groupId>org.ow2.easycommons</groupId>
   <artifactId>easycommons-util</artifactId>
   <version>2.6.1</version>
   <packaging>jar</packaging>
 
+  <properties>
+      <checkstyle-copyright-regexp>${project.basedir}/no-check</checkstyle-copyright-regexp>
+      <checkstyle-license-regexp>${project.basedir}/no-check</checkstyle-license-regexp>
+
+      <maven.build.timestamp.format>yyyy-MM-dd HH:mm:ss</maven.build.timestamp.format>
+
+      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+	  <!-- overridden as moved to git -->
+      <maven-enforcer-plugin.rules.scm>false</maven-enforcer-plugin.rules.scm>
+      <maven-enforcer-plugin.rules.dependency>true</maven-enforcer-plugin.rules.dependency>
+      <maven-enforcer-plugin.rules.bannedDependencies>true</maven-enforcer-plugin.rules.bannedDependencies>
+      <maven-enforcer-plugin.rules.upperBound>true</maven-enforcer-plugin.rules.upperBound>
+      <maven-enforcer-plugin.rules.legalFiles>true</maven-enforcer-plugin.rules.legalFiles>
+      <maven-enforcer-plugin.rules.maven>true</maven-enforcer-plugin.rules.maven>
+      <duplicate-finder.fail>true</duplicate-finder.fail>
+      <maven-dependency-plugin.ignoreNonCompile>false</maven-dependency-plugin.ignoreNonCompile>
+      <maven-dependency-plugin.failOnWarning>true</maven-dependency-plugin.failOnWarning>
+      
+      <!-- Overridden - not using parent -->
+      <checkstyle-copyright-regexp>${project.basedir}/no-check</checkstyle-copyright-regexp>
+
+      <!-- Overridden - not using parent - new licence file -->
+      <checkstyle-license-regexp>${project.basedir}/no-check</checkstyle-license-regexp>
+
+      <java-version>11</java-version>
+      <maven.compiler.release>${java-version}</maven.compiler.release>
+      <maven.compiler.source>${java-version}</maven.compiler.source>
+      <maven.compiler.target>${java-version}</maven.compiler.target>
+      <maven.compiler.showDeprecation>true</maven.compiler.showDeprecation>
+      <maven.compiler.showWarnings>true</maven.compiler.showWarnings>
+      
+      <!-- Override Maven plugin versions defined in OW2 POM parent -->
+      <maven-assembly-plugin.version>3.3.0</maven-assembly-plugin.version>
+      <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
+      <maven-javadoc-plugin.version>3.2.0</maven-javadoc-plugin.version>
+      <maven-release-plugin.version>3.0.0-M1</maven-release-plugin.version>
+      <maven-source-plugin.version>3.2.0</maven-source-plugin.version>
+      
+      <dollar>$</dollar>
+
+      <jaf.version>1.2.2</jaf.version>
+      <jaxb.binding.api.version>2.3.3</jaxb.binding.api.version>
+      <jaxb.version>2.3.5</jaxb.version>
+      <jaxb2-basics.version>0.11.1</jaxb2-basics.version>
+
+  </properties>
+
+
    <dependencies>
+      <!-- from easycommons-parent -->
+      <dependency>
+         <groupId>junit</groupId>
+         <artifactId>junit</artifactId>
+         <version>4.13.1</version>
+         <scope>test</scope>
+      </dependency>
+	  
       <dependency>
          <groupId>xmlunit</groupId>
          <artifactId>xmlunit</artifactId>
@@ -91,8 +141,1071 @@
       </dependency>
    </dependencies>
 
+   <dependencyManagement>
+      <dependencies>
+         <!-- These dependencies all pertains to the Java version used in Petals and the Easy* -->
+         
+         <!-- JAF -->
+         <dependency>
+            <groupId>com.sun.activation</groupId>
+            <artifactId>jakarta.activation</artifactId>
+            <version>${jaf.version}</version>
+         </dependency>
+         
+         <!-- Java Mail -->
+         <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>jakarta.mail</artifactId>
+            <version>1.6.7</version>
+         </dependency>
+         
+         <!-- JAX-B -->
+         <dependency>
+            <groupId>jakarta.xml.bind</groupId>
+            <artifactId>jakarta.xml.bind-api</artifactId>
+            <version>${jaxb.binding.api.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>org.glassfish.jaxb</groupId>
+            <artifactId>jaxb-runtime</artifactId>
+            <version>${jaxb.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>org.glassfish.jaxb</groupId>
+            <artifactId>jaxb-xjc</artifactId>
+            <version>${jaxb.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>com.sun.xml.bind.external</groupId>
+            <artifactId>relaxng-datatype</artifactId>
+            <version>${jaxb.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>org.jvnet.jaxb2_commons</groupId>
+            <artifactId>jaxb2-basics-runtime</artifactId>
+            <version>${jaxb2-basics.version}</version>
+         </dependency>
+         
+         <!-- JAX-WS -->
+         <dependency>
+            <groupId>jakarta.xml.soap</groupId>
+            <artifactId>jakarta.xml.soap-api</artifactId>
+            <version>1.4.2</version>
+         </dependency>
+         <dependency>
+            <groupId>jakarta.xml.ws</groupId>
+            <artifactId>jakarta.xml.ws-api</artifactId>
+            <version>2.3.3</version>
+         </dependency>
+         <dependency>
+            <groupId>jakarta.jws</groupId>
+            <artifactId>jakarta.jws-api</artifactId>
+            <version>2.1.0</version>
+         </dependency>
+         <dependency>
+             <groupId>com.sun.xml.ws</groupId>
+             <artifactId>jaxws-rt</artifactId>
+             <version>2.3.3</version>
+         </dependency>
+         
+         <!-- JAX-RS -->
+         <dependency>
+            <groupId>jakarta.ws.rs</groupId>
+            <artifactId>jakarta.ws.rs-api</artifactId>
+            <version>2.1.6</version>
+         </dependency>
+         
+         <!-- SOAP with Attachments -->
+         <dependency>
+            <groupId>com.sun.xml.messaging.saaj</groupId>
+            <artifactId>saaj-impl</artifactId>
+            <version>1.5.2</version>
+         </dependency>
+         
+         <!-- Java Bean Validation -->
+         <dependency>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
+            <version>2.0.2</version>
+         </dependency>
+         
+         <!-- Java Annotation -->
+         <dependency>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
+            <version>1.3.5</version>
+         </dependency>
+         
+         <!-- Corba/RMI-IIOP -->
+         <dependency>
+            <groupId>org.glassfish.corba</groupId>
+            <artifactId>glassfish-corba-omgapi</artifactId>
+            <version>4.2.3</version>
+         </dependency>
+         
+         <!-- JMS API -->
+         <dependency>
+            <groupId>jakarta.jms</groupId>
+            <artifactId>jakarta.jms-api</artifactId>
+            <version>2.0.3</version>
+         </dependency>
+         
+      </dependencies>
+   </dependencyManagement>
+
+   <build>
+      <plugins>
+         <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>buildnumber-maven-plugin</artifactId>
+            <version>1.4</version>
+            <executions>
+               <execution>
+                  <phase>validate</phase>
+                  <goals>
+                     <goal>create</goal>
+                  </goals>
+               </execution>
+            </executions>
+            <configuration>
+               <items>
+                  <item>timestamp</item>
+               </items>
+               <doCheck>false</doCheck>
+               <doUpdate>false</doUpdate>
+               <revisionOnScmFailure>undefined</revisionOnScmFailure>
+            </configuration>
+         </plugin>
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-enforcer-plugin</artifactId>
+            <version>3.0.0-M3</version>
+            <dependencies>
+               <dependency>
+                  <groupId>org.ow2.petals</groupId>
+                  <artifactId>petals-enforcer-rules</artifactId>
+                  <version>1.1.0</version>
+               </dependency>
+               <dependency>
+                  <groupId>org.codehaus.mojo</groupId>
+                  <artifactId>extra-enforcer-rules</artifactId>
+                  <version>1.3</version>
+               </dependency>
+            </dependencies>
+            <executions>
+               <execution>
+                  <id>enforce-java</id>
+                  <goals>
+                     <goal>enforce</goal>
+                  </goals>
+                  <configuration>
+                     <rules>
+                        <requireJavaVersion>
+                           <version>[11.0.9,)</version>
+                           <message>Java 11.0.9+ is required by Petals.</message>
+                        </requireJavaVersion>
+                        <enforceBytecodeVersion>
+                           <maxJdkVersion>${java-version}</maxJdkVersion>
+                        </enforceBytecodeVersion>
+                     </rules>
+                  </configuration>
+               </execution>
+               <execution>
+                  <id>enforce-maven</id>
+                  <goals>
+                     <goal>enforce</goal>
+                  </goals>
+                  <configuration>
+                     <fail>${maven-enforcer-plugin.rules.maven}</fail>
+                     <rules>
+                        <requireMavenVersion>
+                           <version>3.6.3</version>
+                           <message>Maven 3.6.3 is required to build Petals.</message>
+                        </requireMavenVersion>
+                     </rules>
+                  </configuration>
+               </execution>
+               <execution>
+                  <id>enforce-petals-dedicated</id>
+                  <goals>
+                     <goal>enforce</goal>
+                  </goals>
+                  <configuration>
+                     <rules>
+                        <ScmConnectionMustMatchSvnEntriesIfAny implementation="org.ow2.petals.development.enforcer.rules.ScmConnectionMustMatchRealScmUrlIfAny">
+                           <shouldIFail>${maven-enforcer-plugin.rules.scm}</shouldIFail>
+                        </ScmConnectionMustMatchSvnEntriesIfAny>
+                        <ScmDevelopperConnectionMustMatchSvnEntriesIfAny implementation="org.ow2.petals.development.enforcer.rules.ScmDeveloperConnectionMustMatchRealScmUrlIfAny">
+                           <shouldIFail>${maven-enforcer-plugin.rules.scm}</shouldIFail>
+                        </ScmDevelopperConnectionMustMatchSvnEntriesIfAny>
+                     </rules>
+                  </configuration>
+               </execution>
+               <execution>
+                  <id>enforce-no-shapshots-when-release</id>
+                  <goals>
+                     <goal>enforce</goal>
+                  </goals>
+                  <configuration>
+                     <rules>
+                        <requireReleaseDeps>
+                           <message>No Snapshots allowed when doing a Release</message>
+                           <onlyWhenRelease>true</onlyWhenRelease>
+                        </requireReleaseDeps>
+                     </rules>
+                  </configuration>
+               </execution>
+               <execution>
+                  <id>enforce-buggy-banned-deps</id>
+                  <goals>
+                     <goal>enforce</goal>
+                  </goals>
+                  <configuration>
+                     <fail>${maven-enforcer-plugin.rules.bannedDependencies}</fail>
+                     <rules>
+                        <bannedDependencies>
+                           <excludes>
+                              <!-- Apache Commons Pool contains a memory leak in its versions 1.x. Version 2.5 is required -->
+                              <exclude>commons-pool:commons-pool</exclude>
+                           </excludes>
+                           <message>These dependencies are banned because they contains defaults (memory leak or encounterred bugs)</message>
+                        </bannedDependencies>
+                     </rules>
+                  </configuration>
+               </execution>
+               <execution>
+                  <id>enforce-java8-banned-deps</id>
+                  <goals>
+                     <goal>enforce</goal>
+                  </goals>
+                  <configuration>
+                     <fail>${maven-enforcer-plugin.rules.bannedDependencies}</fail>
+                     <rules>
+                        <bannedDependencies>
+                           <excludes>
+                              
+                              <exclude>xerces:xercesImpl</exclude>
+                              <exclude>xerces:xmlParserAPIs</exclude>
+
+                              <exclude>org.apache.xerces:xml-apis</exclude>
+                              <exclude>xml-apis:xml-apis</exclude>
+
+                              <exclude>org.apache.geronimo.specs:geronimo-stax-api_1.0_spec</exclude>
+                              <exclude>org.apache.geronimo.specs:geronimo-stax-api_1.2_spec</exclude>
+                              <exclude>javax.xml.bind:jsr173_api</exclude>
+                              <exclude>stax:stax-api</exclude>
+                              <exclude>javax.xml.stream:stax-api</exclude>
+
+                              <exclude>org.apache.xalan:xalan</exclude>
+                              <exclude>xalan:xalan</exclude>
+
+                           </excludes>
+                           <message>These dependencies are already present in Java 8</message>
+                        </bannedDependencies>
+                     </rules>
+                  </configuration>
+               </execution>
+               <execution>
+                  <id>enforce-java11-banned-deps</id>
+                  <goals>
+                     <goal>enforce</goal>
+                  </goals>
+                  <configuration>
+                     <fail>${maven-enforcer-plugin.rules.bannedDependencies}</fail>
+                     <rules>
+                        <bannedDependencies>
+                           <excludes>
+                              <!-- JAF: Since moving to Java 11, we prefer com.sun.activation:jakarta.activation -->
+                              <exclude>javax.activation:activation</exclude>
+                              <exclude>com.sun.activation:javax.activation</exclude>
+                              <exclude>org.apache.geronimo.specs:geronimo-activation_1.0.2_spec</exclude>
+                              <exclude>org.apache.geronimo.specs:geronimo-activation_1.1_spec</exclude>
+                              <exclude>jakarta.activation:jakarta.activation-api</exclude> <!-- To replace by com.sun.activation:jakarta.activation to avoid class duplication -->
+                              
+                              <!-- Java Mail: Since moving to Java 11, we must use Jakarta Mail: com.sun.mail:jakarta.mail -->
+                              <exclude>com.sun.mail:javax.mail</exclude>
+                              <exclude>javax.mail:mail</exclude>
+                              <exclude>org.apache.geronimo.specs:geronimo-javamail_1.4_spec</exclude>
+
+                              <!-- JaxB: Since moving to Java 11, we prefer jakarta.xml.bind:jakarta.xml.bind-api -->
+                              <!-- And implementation provided by Glassfish -->
+                              <exclude>javax.xml.bind:jaxb-api</exclude>
+                              <exclude>com.sun.xml.bind:jaxb-impl</exclude> <!-- To replace by org.glassfish.jaxb:jaxb-runtime -->
+                              <exclude>com.sun.xml.bind:jaxb-core</exclude> <!-- To replace by org.glassfish.jaxb:jaxb-runtime -->
+                              <exclude>com.sun.xml.bind:jaxb-xjc</exclude> <!-- To replace by org.glassfish.jaxb:jaxb-xjc -->
+                              <exclude>com.sun.xml.bind:jaxb-jxc</exclude> <!-- To replace by org.glassfish.jaxb:jaxb-jxc -->
+                              
+                              <!-- JAX-WS: Since moving to Java 11, we prefer jakarta.xml.ws -->
+                              <exclude>org.apache.geronimo.specs:geronimo-jaxws_2.1_spec</exclude> <!-- To replace by jakarta.xml.ws:jakarta.xml.ws-api -->
+                              <exclude>org.apache.geronimo.specs:geronimo-jaxws_2.2_spec</exclude> <!-- To replace by jakarta.xml.ws:jakarta.xml.ws-api -->
+                              <exclude>javax.xml.ws:jaxws-api</exclude> <!-- To replace by jakarta.xml.ws:jakarta.xml.ws-api -->
+                              <exclude>javax.jws:jsr181-api</exclude> <!-- To replace by jakarta.jws:jakarta.jws-api -->
+                              <exclude>javax.jws:javax.jws-api</exclude> <!-- To replace by jakarta.jws:jakarta.jws-api -->
+                              <exclude>org.apache.geronimo.specs:geronimo-ws-metadata_2.0_spec</exclude> <!-- To replace by jakarta.jws:jakarta.jws-api -->
+                              
+                              <!-- JAX-RS: Since moving to Java 11, we prefer jakarta.ws.rs -->
+                              <exclude>javax.ws.rs:javax.ws.rs-api</exclude> <!-- To replace by jakarta.ws.rs:jakarta.ws.rs-api -->
+                              
+                              <!-- SOAP with Attachments: Since moving to Java 11, we prefer com.sun.xml.messaging.saaj:saaj-impl -->
+                              <exclude>javax.xml.soap:saaj-api</exclude>
+                              <exclude>javax.xml.soap:saaj-impl</exclude>
+                              <exclude>com.sun.xml:saaj-impl</exclude>
+                              <exclude>org.apache.geronimo.specs:geronimo-saaj_1.1_spec</exclude>
+                              <exclude>org.apache.geronimo.specs:geronimo-saaj_1.3_spec</exclude>
+                              
+                              <!-- Java Bean Validation: Since moving to Java 11, we prefer jakarta.validation:jakarta.validation-api -->
+                              <exclude>javax.validation:validation-api</exclude>
+                              
+                              <!-- Java Annotation: Since moving to Java 11, we prefer jakarta.annotation:jakarta.annotation-api -->
+                              <exclude>org.apache.geronimo.specs:geronimo-annotation_1.0_spec</exclude>
+                              <exclude>javax.annotation:javax.annotation-api</exclude>
+                              <exclude>javax.annotation:jsr250-api</exclude>
+                              
+                              <!-- Java Messaging: Since moving to Java 11, we prefer jakarta.jms:jakarta.jms-api -->
+                              <exclude>org.apache.geronimo.specs:geronimo-jms_1.1_spec</exclude>
+                              
+                              <!-- Jaxen 1.1.6 is not compliant with Java 11 because it collides with JDK package org.w3c.dom, Bump it to 1.2.0+ -->
+                              <exclude>jaxen:jaxen:(,1.1.6]</exclude>
+
+                           </excludes>
+                           <message>These dependencies are too old for Java 11 and must be upgraded</message>
+                        </bannedDependencies>
+                     </rules>
+                  </configuration>
+               </execution>
+               <execution>
+                  <id>enforce-ebm-banned-deps</id>
+                  <goals>
+                     <goal>enforce</goal>
+                  </goals>
+                  <configuration>
+                     <rules>
+                        <bannedDependencies>
+                           <excludes>
+                              <exclude>com.ebmwebsourcing.easycommons</exclude>
+                           </excludes>
+
+                           <message>These dependencies were migrated to org.ow2.easycommons. Exclude them and add
+                              explicit dependency to the correct one in your project.</message>
+                        </bannedDependencies>
+                     </rules>
+                  </configuration>
+               </execution>
+               <execution>
+                  <id>enforce-no-circular-deps</id>
+                  <goals>
+                     <goal>enforce</goal>
+                  </goals>
+                  <configuration>
+                     <rules>
+                        <banCircularDependencies />
+                     </rules>
+                  </configuration>
+               </execution>
+               <execution>
+                  <id>enforce-petals-dedicated-deps</id>
+                  <goals>
+                     <goal>enforce</goal>
+                  </goals>
+                  <configuration>
+                     <fail>${maven-enforcer-plugin.rules.dependency}</fail>
+                     <rules>
+                        <DependencyConvergence />
+                     </rules>
+                  </configuration>
+               </execution>
+               <execution>
+                  <id>enforce-upper-bound-deps</id>
+                  <goals>
+                     <goal>enforce</goal>
+                  </goals>
+                  <configuration>
+                     <fail>${maven-enforcer-plugin.rules.upperBound}</fail>
+                     <rules>
+                        <requireUpperBoundDeps />
+                     </rules>
+                  </configuration>
+               </execution>
+               <execution>
+                  <id>enforce-legal-files</id>
+                  <goals>
+                     <goal>enforce</goal>
+                  </goals>
+                  <configuration>
+                     <fail>${maven-enforcer-plugin.rules.legalFiles}</fail>
+                     <rules>
+                        <requireFilesExist>
+                           <files>
+                              <!--
+                                  The file LICENSE can be generated using the goal 'update-project-license'
+                                  of license-maven-plugin:
+                                     mvn license:update-project-license -Dlicense.licenceFile=LICENSE -Dlicense.licenseName=lgpl_v2_1
+                               -->
+                              <file>LICENSE</file>
+                              <file>COPYRIGHT</file>
+                           </files>
+                        </requireFilesExist>
+                     </rules>
+                  </configuration>
+               </execution>
+            </executions>
+         </plugin>
+         <plugin>
+            <groupId>org.basepom.maven</groupId>
+            <artifactId>duplicate-finder-maven-plugin</artifactId>
+            <version>1.5.0</version>
+            <executions>
+               <execution>
+                  <id>enforce-no-duplicate-classes</id>
+                  <goals>
+                     <goal>check</goal>
+                  </goals>
+                  <configuration>
+                     <failBuildInCaseOfDifferentContentConflict>${duplicate-finder.fail}</failBuildInCaseOfDifferentContentConflict>
+                     <!-- Disable for now, too much errors -->
+                     <!--includeBootClasspath>true</includeBootClasspath-->
+                     <printEqualFiles>true</printEqualFiles>
+                     <ignoredResourcePatterns>
+                        <!-- No need to worry about jaxb2 binding files, they are used by maven-jaxb2-plugin only -->
+                        <ignoredResourcePattern>.*\.xjb$</ignoredResourcePattern>
+                        <!-- neither catalog files, they are used by maven-jaxb2-plugin only (to be on the safe side, we don't ignore ALL .cat files) -->
+                        <ignoredResourcePattern>(.*/)?catalog\.cat$</ignoredResourcePattern>
+                        <!-- Some dependencies have these in duplicates, it's not important -->
+                        <ignoredResourcePattern>.*about\.html$</ignoredResourcePattern>
+                     </ignoredResourcePatterns>
+                     <exceptions>
+                        <exception>
+                           <conflictingDependencies>
+                              <dependency>
+                                 <groupId>org.ow2.petals</groupId>
+                                 <artifactId>jbi-adapter-impl</artifactId>
+                                 <type>test-jar</type>
+                                 <scope>test</scope>
+                              </dependency>
+                           </conflictingDependencies>
+                           <!-- Current project is the actual project being checked, not this parent pom -->
+                           <currentProject>true</currentProject>
+                           <resources>
+                              <!-- This is needed in jbi-adapter-impl but it is present in BC and SE also
+                                   and their tests need jbi-adapter-impl
+                                   TODO remove the file from jbi-adapter-impl if possible
+                                   this threatens the stability of the test if the wrong jbi.xml is used -->
+                              <resource>/jbi/jbi.xml</resource>
+                           </resources>
+                        </exception>
+                        <exception>
+                           <conflictingDependencies>
+                              <dependency>
+                                 <groupId>org.ow2.petals</groupId>
+                                 <artifactId>petals-cdk-junit</artifactId>
+                                 <scope>test</scope>
+                              </dependency>
+                           </conflictingDependencies>
+                           <!-- Current project is the actual project being checked, not this parent pom -->
+                           <currentProject>true</currentProject>
+                           <resources>
+                              <!-- It makes sense to override it for tests -->
+                              <resource>/logging.properties</resource>
+                           </resources>
+                        </exception>
+                     </exceptions>
+                  </configuration>
+               </execution>
+            </executions>
+         </plugin>
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <version>3.1.2</version>
+            <executions>
+               <execution>
+                  <id>analyze</id>
+                  <phase>process-test-classes</phase>
+                  <goals>
+                     <!-- analyze-only uses the compiled classes (analyze will compile then itself!) -->
+                     <goal>analyze-only</goal>
+                  </goals>
+                  <configuration>
+                     <ignoreNonCompile>${maven-dependency-plugin.ignoreNonCompile}</ignoreNonCompile>
+                     <failOnWarning>${maven-dependency-plugin.failOnWarning}</failOnWarning>
+                     <ignoredUnusedDeclaredDependencies>
+                        <!-- That's often used at runtime and not used at compilation time -->
+                        <ignoredUnusedDeclaredDependency>org.slf4j:slf4j-jdk14</ignoredUnusedDeclaredDependency>
+                        <!-- Let's ignore that because it is used at runtime by surefire if jacoco is enabled -->
+                        <ignoredUnusedDeclaredDependency>org.sonarsource.java:sonar-jacoco-listeners</ignoredUnusedDeclaredDependency>
+                     </ignoredUnusedDeclaredDependencies>
+                  </configuration>
+               </execution>
+            </executions>
+         </plugin>
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-checkstyle-plugin</artifactId>
+            <version>3.1.1</version>
+            <executions>
+               <execution>
+                  <id>check-header</id>
+                  <!-- let's do it at validate to prevent generated sources to be covered -->
+                  <phase>validate</phase>
+                  <goals>
+                     <goal>check</goal>
+                  </goals>
+                  <configuration>
+                     <configLocation>petals-checkstyle-rules.xml</configLocation>
+                     <headerLocation>${checkstyle-copyright-regexp}.txt</headerLocation>
+
+                     <consoleOutput>true</consoleOutput>
+                     <logViolationsToConsole>true</logViolationsToConsole>
+
+                     <includeResources>true</includeResources>
+                     <includeTestSourceDirectory>true</includeTestSourceDirectory>
+                     <includeTestResources>true</includeTestResources>
+                     <includes>**/*</includes>
+                     <resourceIncludes>**/*</resourceIncludes>
+                     <!--
+                        We exclude following resources:
+                         - JAR, class, ZIP, other binary files and log files used for unit tests
+                         - Licence and note files
+                         - Man pages sources
+                         - Keystores, certificate, keys
+                         - Images
+                         - SCM files
+                     -->
+                     <resourceExcludes>**/*.jar,**/*.class,**/*.zip,**/*.bin,**/LICENSE.txt,**/NOTE,**/*.log,**/*_provideFlowStepBegin.xml,**/*_provideFlowStepEnd.xml,**/*_provideFlowStepFailure.xml,**/man1/*.1,**/man5/*.5,**/man7/*.7,**/*.jks,**/id_rsa*,**/known_hosts,**/*.jpg,**/*.png,**/*.crt,**/*.pem,**/.gitignore</resourceExcludes>
+                  </configuration>
+               </execution>
+               <execution>
+                  <id>check-header-pom-file</id>
+                  <phase>validate</phase>
+                  <goals>
+                     <goal>check</goal>
+                  </goals>
+                  <configuration>
+                     <configLocation>petals-checkstyle-rules.xml</configLocation>
+                     <headerLocation>${checkstyle-copyright-regexp}.txt</headerLocation>
+
+                     <consoleOutput>true</consoleOutput>
+                     <logViolationsToConsole>true</logViolationsToConsole>
+
+                     <sourceDirectories>
+                        <sourceDirectory>${basedir}</sourceDirectory>
+                     </sourceDirectories>
+                     
+                     <includes>/pom.xml</includes>
+                     <includeResources>false</includeResources>
+                     <includeTestSourceDirectory>false</includeTestSourceDirectory>
+                     <includeTestResources>false</includeTestResources>
+                  </configuration>
+               </execution>
+               <execution>
+                  <id>check-header-ant-source-files</id>
+                  <phase>validate</phase>
+                  <goals>
+                     <goal>check</goal>
+                  </goals>
+                  <configuration>
+                     <configLocation>petals-checkstyle-rules.xml</configLocation>
+                     <headerLocation>${checkstyle-copyright-regexp}.txt</headerLocation>
+
+                     <consoleOutput>true</consoleOutput>
+                     <logViolationsToConsole>true</logViolationsToConsole>
+
+                     <sourceDirectories>
+                        <sourceDirectory>${basedir}/src/main/ant</sourceDirectory>
+                     </sourceDirectories>
+
+                     <includes>/**/*</includes>
+                     <includeResources>false</includeResources>
+                     <includeTestSourceDirectory>false</includeTestSourceDirectory>
+                     <includeTestResources>false</includeTestResources>
+                  </configuration>
+               </execution>
+               <execution>
+                  <id>check-header-jbi-source-files</id>
+                  <phase>validate</phase>
+                  <goals>
+                     <goal>check</goal>
+                  </goals>
+                  <configuration>
+                     <configLocation>petals-checkstyle-rules.xml</configLocation>
+                     <headerLocation>${checkstyle-copyright-regexp}.txt</headerLocation>
+
+                     <consoleOutput>true</consoleOutput>
+                     <logViolationsToConsole>true</logViolationsToConsole>
+
+                     <sourceDirectories>
+                        <sourceDirectory>${basedir}/src/main/jbi</sourceDirectory>
+                     </sourceDirectories>
+
+                     <includes>/**/*</includes>
+                     <includeResources>false</includeResources>
+                     <includeTestSourceDirectory>false</includeTestSourceDirectory>
+                     <includeTestResources>false</includeTestResources>
+                     <!--
+                        We exclude following content:
+                         - JAR files
+                     -->
+		               <excludes>**/*.jar,**/*.jks</excludes>
+                  </configuration>
+               </execution>
+               <execution>
+                  <id>check-header-assembly-files</id>
+                  <phase>validate</phase>
+                  <goals>
+                     <goal>check</goal>
+                  </goals>
+                  <configuration>
+                     <configLocation>petals-checkstyle-rules.xml</configLocation>
+                     <headerLocation>${checkstyle-copyright-regexp}.txt</headerLocation>
+
+                     <consoleOutput>true</consoleOutput>
+                     <logViolationsToConsole>true</logViolationsToConsole>
+
+                     <sourceDirectories>
+                        <sourceDirectory>${basedir}/src/main/assembly</sourceDirectory>
+                     </sourceDirectories>
+
+                     <includes>/**/*</includes>
+                     <includeResources>false</includeResources>
+                     <includeTestSourceDirectory>false</includeTestSourceDirectory>
+                     <includeTestResources>false</includeTestResources>
+                  </configuration>
+               </execution>
+               <execution>
+                  <id>check-copyright-file</id>
+                  <phase>validate</phase>
+                  <goals>
+                     <goal>check</goal>
+                  </goals>
+                  <configuration>
+                     <configLocation>petals-checkstyle-rules.xml</configLocation>
+                     <headerLocation>${checkstyle-copyright-regexp}.txt</headerLocation>
+
+                     <consoleOutput>true</consoleOutput>
+                     <logViolationsToConsole>true</logViolationsToConsole>
+
+                     <sourceDirectories>
+                        <sourceDirectory>${basedir}</sourceDirectory>
+                     </sourceDirectories>
+
+                     <includes>/COPYRIGHT</includes>
+                     <includeResources>false</includeResources>
+                     <includeTestSourceDirectory>false</includeTestSourceDirectory>
+                     <includeTestResources>false</includeTestResources>
+                  </configuration>
+               </execution>
+               <execution>
+                  <!-- Checking the file 'LICENSE' permits to check the copyright dates for "3-clause" BSD license -->
+                  <id>check-license-file</id>
+                  <phase>validate</phase>
+                  <goals>
+                     <goal>check</goal>
+                  </goals>
+                  <configuration>
+                     <configLocation>petals-checkstyle-rules.xml</configLocation>
+                     <headerLocation>${checkstyle-license-regexp}.txt</headerLocation>
+
+                     <consoleOutput>true</consoleOutput>
+                     <logViolationsToConsole>true</logViolationsToConsole>
+
+                     <sourceDirectories>
+                        <sourceDirectory>${basedir}</sourceDirectory>
+                     </sourceDirectories>
+
+                     <includes>/LICENSE</includes>
+                     <includeResources>false</includeResources>
+                     <includeTestSourceDirectory>false</includeTestSourceDirectory>
+                     <includeTestResources>false</includeTestResources>
+                  </configuration>
+               </execution>
+            </executions>
+            <dependencies>
+               <dependency>
+                  <groupId>org.ow2.petals</groupId>
+                  <artifactId>petals-checkstyle-rules</artifactId>
+                  <version>1.1.0</version>
+               </dependency>
+            </dependencies>
+         </plugin>
+         <plugin>
+            <!-- attach sources also with SNAPSHOTs (it is enabled in profile ow2-release) -->
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-source-plugin</artifactId>
+            <version>${maven-source-plugin.version}</version>
+            <executions>
+              <execution>
+                <id>attach-sources</id>
+                <goals>
+                  <goal>jar-no-fork</goal>
+                </goals>
+              </execution>
+            </executions>
+         </plugin>
+         <plugin>
+            <!-- Attach Javadoc also with SNAPSHOTs (it is enabled in profile ow2-release.
+                 Javadoc generator of JRE 8+ is more strict, and can fail. So this check the
+                 Javadoc on each build -->
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <version>${maven-javadoc-plugin.version}</version>
+            <configuration>
+	            <doclint>all</doclint>
+               <javadocExecutable>${java.home}/bin/javadoc</javadocExecutable>
+	         </configuration>
+            <executions>
+               <execution>
+                  <id>attach-javadocs</id>
+                  <goals>
+                     <goal>jar</goal>
+                  </goals>
+               </execution>
+               <execution>
+                  <id>attach-test-javadocs</id>
+                  <goals>
+                     <goal>test-jar</goal>
+                  </goals>
+               </execution>
+            </executions>
+          </plugin>
+      </plugins>
+      <pluginManagement>
+         <plugins>
+            <plugin>
+               <artifactId>maven-deploy-plugin</artifactId>
+               <version>3.0.0-M1</version>
+               <configuration>
+                  <!-- Sometimes OW2 servers have problems and retry is needed -->
+                  <retryFailedDeploymentCount>3</retryFailedDeploymentCount>
+                  <!-- In case of multimodule build, let's deploy all in one go at the end to prevent half of the artefacts being deployed -->
+                  <!-- Disabled for now because of: https://issues.apache.org/jira/browse/MDEPLOY-200 -->
+                  <!--deployAtEnd>true</deployAtEnd-->
+               </configuration>
+            </plugin>
+            <plugin>
+               <groupId>org.apache.maven.plugins</groupId>
+               <artifactId>maven-assembly-plugin</artifactId>
+               <version>${maven-assembly-plugin.version}</version>
+            </plugin>
+            <plugin>
+               <groupId>org.apache.maven.plugins</groupId>
+               <artifactId>maven-antrun-plugin</artifactId>
+               <version>3.0.0</version>
+            </plugin>
+            <plugin>
+               <groupId>org.apache.maven.plugins</groupId>
+               <artifactId>maven-compiler-plugin</artifactId>
+               <version>3.8.1</version>
+            </plugin>
+            <plugin>
+               <groupId>org.apache.maven.plugins</groupId>
+               <artifactId>maven-install-plugin</artifactId>
+               <version>3.0.0-M1</version>
+            </plugin>
+            <plugin>
+               <groupId>org.apache.maven.plugins</groupId>
+               <artifactId>maven-clean-plugin</artifactId>
+               <version>3.1.0</version>
+            </plugin>
+            <plugin>
+               <groupId>org.apache.maven.plugins</groupId>
+               <artifactId>maven-resources-plugin</artifactId>
+               <version>3.2.0</version>
+               <executions>
+                  <!-- The default execution of the maven-resources-plugin is assumed by the
+                       goal 'resources', here we just add specific resource processing. -->
+                  <execution>
+                     <id>process-license-for-jar</id>
+                     <phase>process-resources</phase>
+                     <goals>
+                        <goal>copy-resources</goal>
+                     </goals>
+                     <configuration>
+                        <outputDirectory>${project.build.outputDirectory}/META-INF</outputDirectory>
+                        <resources>
+                           <resource>
+                              <directory>${basedir}</directory>
+                              <includes>
+                                 <include>LICENSE</include>
+                                 <include>COPYRIGHT</include>
+                              </includes>
+                           </resource>
+                        </resources>
+                     </configuration>
+                  </execution>
+                  <execution>
+                     <id>process-license-for-test-jar</id>
+                     <phase>process-test-resources</phase>
+                     <goals>
+                        <goal>copy-resources</goal>
+                     </goals>
+                     <configuration>
+                        <outputDirectory>${project.build.testOutputDirectory}/META-INF</outputDirectory>
+                        <resources>
+                           <resource>
+                              <directory>${basedir}</directory>
+                              <includes>
+                                 <include>LICENSE</include>
+                                 <include>COPYRIGHT</include>
+                              </includes>
+                           </resource>
+                        </resources>
+                     </configuration>
+                  </execution>
+               </executions>
+            </plugin>
+            <plugin>
+               <groupId>org.codehaus.mojo</groupId>
+               <artifactId>license-maven-plugin</artifactId>
+               <version>2.0.0</version>
+               <executions>
+                  <execution>
+                     <id>download-licenses</id>
+                     <phase>prepare-package</phase>
+                     <goals>
+                        <goal>download-licenses</goal>
+                     </goals>
+                     <configuration>
+                        <errorRemedy>xmlOutput</errorRemedy>
+                        <socketTimeout>30000</socketTimeout>
+                        <useDefaultUrlReplacements>true</useDefaultUrlReplacements>
+                        <licenseUrlReplacements>
+                           <licenseUrlReplacement>
+                              <id>http.opensource.org</id>
+                              <regexp>http(://opensource\.org/licenses/.*)</regexp>
+                              <replacement>https$1</replacement>
+                           </licenseUrlReplacement>
+                           <licenseUrlReplacement>
+                              <id>http.www.opensource.org</id>
+                              <regexp>http://www.opensource\.org(/licenses/.*)</regexp>
+                              <replacement>https://opensource.org$1</replacement>
+                           </licenseUrlReplacement>
+                           <licenseUrlReplacement>
+                              <id>https.www.opensource.org</id>
+                              <regexp>https://www.opensource\.org(/licenses/.*)</regexp>
+                              <replacement>https://opensource.org$1</replacement>
+                           </licenseUrlReplacement>
+                        </licenseUrlReplacements>
+                     </configuration>
+                  </execution>
+                  <execution>
+                     <id>add-third-party</id>
+                     <phase>prepare-package</phase>
+                     <goals>
+                        <goal>add-third-party</goal>
+                     </goals>
+                     <configuration>
+                        <thirdPartyFilename>THIRD-PARTY</thirdPartyFilename>
+                        <acceptPomPackaging>true</acceptPomPackaging>
+                        <failOnMissing>true</failOnMissing>
+                        <failOnBlacklist>true</failOnBlacklist>
+                        <useMissingFile>true</useMissingFile>
+                        <licenseMerges>
+                           <licenseMerge>MIT License|The MIT License</licenseMerge>
+                           <licenseMerge>Apache License 2.0|Apache 2.0 License|Apache License, Version 2.0|Apache License, 2.0|ASF 2.0|ALv2|Apache 2.0|Apache v2|Apache Software License - Version 2.0|Apache 2|The Apache Software License, Version 2.0</licenseMerge>
+                           <licenseMerge>BSD 2-Clause "Simplified" License|BSD 2-Clause|New BSD License|BSD-Style License|The BSD License</licenseMerge>
+                           <licenseMerge>BSD 3-Clause "New" or "Revised" License|New BSD License (3-clause license)|BSD Licence 3|BSD License</licenseMerge>
+                           <licenseMerge>Eclipse Distribution License 1.0|Eclipse Distribution License - v 1.0|EDL 1.0</licenseMerge>
+                           <licenseMerge>Eclipse Public License 2.0|Eclipse Public License - v 2.0|EPL 2.0</licenseMerge>
+                           <licenseMerge>GNU LESSER GENERAL PUBLIC LICENSE Version 2.1|LGPL 2.1</licenseMerge>
+                        </licenseMerges>
+                     </configuration>
+                  </execution>
+               </executions>
+            </plugin>
+            <plugin>
+               <groupId>org.apache.maven.plugins</groupId>
+               <artifactId>maven-surefire-plugin</artifactId>
+               <version>3.0.0-M5</version>
+               <configuration>
+                  <trimStackTrace>false</trimStackTrace>
+               </configuration>
+            </plugin>
+            <plugin>
+               <groupId>org.apache.maven.plugins</groupId>
+               <artifactId>maven-failsafe-plugin</artifactId>
+               <version>3.0.0-M5</version>
+               <executions>
+                  <execution>
+                     <!-- maven-failsafe-plugin is not automatically bound to its phases like failsafe -->
+                     <id>integration-test</id>
+                     <goals>
+                        <goal>integration-test</goal>
+                        <!-- Note that the last phase is verify in order for
+                             the post-integration-test phase to be run before
+                             doing last checks -->
+                        <goal>verify</goal>
+                     </goals>
+                  </execution>
+               </executions>
+               <configuration>
+                  <trimStackTrace>false</trimStackTrace>
+               </configuration>
+            </plugin>
+            <plugin>
+               <groupId>org.apache.maven.plugins</groupId>
+               <artifactId>maven-jar-plugin</artifactId>
+               <version>3.2.0</version>
+               <configuration>
+                  <archive>
+                     <manifest>
+                        <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                        <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                     </manifest>
+                     <manifestEntries>
+                        <Built-Date>${maven.build.timestamp}</Built-Date>
+                        <SCM-Revision>${buildNumber}</SCM-Revision>
+                        <SCM-Connection>${project.scm.connection}</SCM-Connection>
+                     </manifestEntries>
+                  </archive>
+               </configuration>
+               <executions>
+                  <execution>
+                     <!-- Add the execution of the maven-jar-plugin on test classes -->
+                     <id>test-jar</id>
+                     <goals>
+                        <goal>test-jar</goal>
+                     </goals>
+                  </execution>
+               </executions>
+            </plugin>
+            <plugin>
+               <groupId>org.jvnet.jaxb2.maven2</groupId>
+               <artifactId>maven-jaxb2-plugin</artifactId>
+               <version>0.14.0</version>
+               <executions>
+                  <execution>
+                     <id>generate</id>
+                     <goals>
+                        <goal>generate</goal>
+                     </goals>
+                  </execution>
+               </executions>
+               <configuration>
+                  <extension>true</extension>
+                  <args>
+                     <!-- Careful not to add pluging that modify the behaviour of equals
+                           or hashCode without properly evaluating the potential problems it introduces -->
+                     <arg>-XtoString</arg>
+                  </args>
+                  <plugins>
+                     <plugin>
+                        <groupId>org.jvnet.jaxb2_commons</groupId>
+                        <artifactId>jaxb2-basics</artifactId>
+                        <version>${jaxb2-basics.version}</version>
+                     </plugin>
+                  </plugins>
+               </configuration>
+            </plugin>
+            <plugin>
+               <groupId>org.codehaus.mojo</groupId>
+               <artifactId>build-helper-maven-plugin</artifactId>
+               <version>3.2.0</version>
+            </plugin>
+            <plugin>
+               <groupId>org.eclipse.m2e</groupId>
+               <artifactId>lifecycle-mapping</artifactId>
+               <version>1.0.0</version>
+               <configuration>
+                  <lifecycleMappingMetadata>
+                     <pluginExecutions>
+                        <pluginExecution>
+                           <pluginExecutionFilter>
+                              <groupId>org.apache.maven.plugins</groupId>
+                              <artifactId>maven-checkstyle-plugin</artifactId>
+                              <versionRange>[3.1.1,)</versionRange>
+                              <goals>
+                                 <goal>check</goal>
+                              </goals>
+                           </pluginExecutionFilter>
+                           <action>
+                              <!-- TODO: Change to execute when Eclipse stops
+                                   complaining about files in generated sources
+                                   See: https://github.com/m2e-code-quality/m2e-code-quality/issues/72
+                                   and also https://github.com/m2e-code-quality/m2e-code-quality/issues/71
+                                   and https://github.com/m2e-code-quality/m2e-code-quality/pull/55 -->
+                              <ignore />
+                           </action>
+                        </pluginExecution>
+                        <pluginExecution>
+                           <pluginExecutionFilter>
+                              <groupId>org.apache.maven.plugins</groupId>
+                              <artifactId>maven-dependency-plugin</artifactId>
+                              <versionRange>[3.1.2,)</versionRange>
+                              <goals>
+                                 <goal>analyze-only</goal>
+                              </goals>
+                           </pluginExecutionFilter>
+                           <action>
+                              <!-- TODO: Change to execute when Eclipse stops
+                                   complaining differently than command-line -->
+                              <ignore />
+                           </action>
+                        </pluginExecution>
+                        <pluginExecution>
+                           <pluginExecutionFilter>
+                              <groupId>org.basepom.maven</groupId>
+                              <artifactId>duplicate-finder-maven-plugin</artifactId>
+                              <versionRange>[1.5.0,)</versionRange>
+                              <goals>
+                                 <goal>check</goal>
+                              </goals>
+                           </pluginExecutionFilter>
+                           <action>
+                              <ignore />
+                           </action>
+                        </pluginExecution>
+                        <pluginExecution>
+                           <pluginExecutionFilter>
+                              <groupId>org.codehaus.mojo</groupId>
+                              <artifactId>license-maven-plugin</artifactId>
+                              <versionRange>[2.0.0,)</versionRange>
+                              <goals>
+                                 <goal>add-third-party</goal>
+                              </goals>
+                           </pluginExecutionFilter>
+                           <action>
+                              <ignore />
+                           </action>
+                        </pluginExecution>
+                     </pluginExecutions>
+                  </lifecycleMappingMetadata>
+               </configuration>
+            </plugin>
+            <plugin>
+               <groupId>org.codehaus.mojo</groupId>
+               <artifactId>exec-maven-plugin</artifactId>
+               <version>3.0.0</version>
+            </plugin>
+            <plugin>
+               <groupId>org.apache.maven.plugins</groupId>
+               <artifactId>maven-war-plugin</artifactId>
+               <version>3.3.1</version>
+            </plugin>
+            <plugin>
+               <groupId>org.apache.maven.plugins</groupId>
+               <artifactId>maven-shade-plugin</artifactId>
+               <version>3.2.4</version>
+            </plugin>
+            <plugin>
+               <groupId>org.apache.maven.plugins</groupId>
+               <artifactId>maven-site-plugin</artifactId>
+               <version>3.9.1</version>
+            </plugin>
+            <plugin>
+               <groupId>org.apache.maven.plugins</groupId>
+               <artifactId>maven-project-info-reports-plugin</artifactId>
+               <version>3.1.1</version>
+	    </plugin>
+      </plugins>
+      </pluginManagement>
+      <defaultGoal>install</defaultGoal>
+   </build>
+
   <scm>
-    <connection>scm:svn:https://svn.petalslink.org/svnroot/tags/easycommons-util-2.6.1</connection>
-    <developerConnection>scm:svn:https://svn.petalslink.org/svnroot/tags/easycommons-util-2.6.1</developerConnection>
+    <tag>HEAD</tag>
+	<url>scm:git:https://github.com/alfasoftware/easycommons-util/tree/${project.scm.tag}</url>
+    <connection>scm:git:https://github.com/alfasoftware/easycommons-util.git</connection>
+    <developerConnection>scm:git:https://github.com/alfasoftware/easycommons-util.git</developerConnection>
   </scm>
+
 </project>
