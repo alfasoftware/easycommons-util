@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2017-2023 Linagora
+ 
+ This program/library is free software: you can redistribute it and/or modify
+ it under the terms of the New BSD License (3-clause license).
+
+ This program/library is distributed in the hope that it will be useful, but
+ WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE. See the New BSD License (3-clause license)
+ for more details.
+
+ You should have received a copy of the New BSD License (3-clause license)
+ along with this program/library; If not, see http://directory.fsf.org/wiki/License:BSD_3Clause/
+ for the New BSD License (3-clause license).
+-->
+<test:directory xmlns:test="http://petals.ow2.org/test/" xmlns:test1="http://petals.ow2.org/test/1"
+   xmlns:test2="http://petals.ow2.org/test/2">
+   <test:person>
+      <test1:lastname>dupont</test1:lastname>
+      <test1:firstName>roger</test1:firstName>
+      <test2:address>
+         bla-bla-bla
+         <test1:street>rue de la fontaine</test1:street>
+         <test1:town>Marseille</test1:town>
+      </test2:address>
+   </test:person>
+   <test:person>
+      <test1:lastname>durand</test1:lastname>
+      <test1:firstName>bernard</test1:firstName>
+      <test2:address>
+         <test1:street>route de Paris</test1:street>
+         <test1:town>Lyon</test1:town>
+      </test2:address>
+   </test:person>
+   <test:person>
+      <test1:lastname>dupond</test1:lastname>
+      <test1:firstName>jean</test1:firstName>
+      <test2:address>
+         <test1:street>rue de l'URSS</test1:street>
+         <test1:town>Lille</test1:town>
+      </test2:address>
+   </test:person>
+</test:directory>

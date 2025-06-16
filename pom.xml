@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (c) 2010-2012 EBM WebSourcing, 2012-2023 Linagora
+
+ This program/library is free software: you can redistribute it and/or modify
+ it under the terms of the New BSD License (3-clause license).
+
+ This program/library is distributed in the hope that it will be useful, but
+ WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE. See the New BSD License (3-clause license)
+ for more details.
+
+ You should have received a copy of the New BSD License (3-clause license)
+ along with this program/library; If not, see http://directory.fsf.org/wiki/License:BSD_3Clause/
+ for the New BSD License (3-clause license).
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+   <parent>
+      <groupId>org.ow2.easycommons</groupId>
+      <artifactId>easycommons-parent</artifactId>
+      <version>1.2.1</version>
+      <relativePath>../parent/pom.xml</relativePath>
+   </parent>
+
+  <groupId>org.ow2.easycommons</groupId>
+  <artifactId>easycommons-util</artifactId>
+  <version>2.6.1</version>
+  <packaging>jar</packaging>
+
+   <dependencies>
+      <dependency>
+         <groupId>xmlunit</groupId>
+         <artifactId>xmlunit</artifactId>
+         <version>1.6</version>
+      </dependency>
+      <dependency>
+         <groupId>org.ow2.easycommons</groupId>
+         <artifactId>easycommons-io</artifactId>
+         <version>1.4.1</version>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <groupId>org.ow2.easycommons</groupId>
+         <artifactId>easycommons-lang</artifactId>
+         <version>1.6.1</version>
+      </dependency>
+      <dependency>
+         <groupId>org.ow2.easycommons</groupId>
+         <artifactId>easycommons-stream</artifactId>
+         <version>1.5.1</version>
+      </dependency>
+      <dependency>
+         <groupId>com.sun.activation</groupId>
+         <artifactId>jakarta.activation</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>jakarta.xml.bind</groupId>
+         <artifactId>jakarta.xml.bind-api</artifactId>
+         <exclusions>
+            <exclusion>
+               <!-- Already included in com.sun.activation:jakarta.activation -->
+               <groupId>jakarta.activation</groupId>
+               <artifactId>jakarta.activation-api</artifactId>
+            </exclusion>
+         </exclusions>
+      </dependency>
+      <dependency>
+         <groupId>jakarta.xml.soap</groupId>
+         <artifactId>jakarta.xml.soap-api</artifactId>
+         <exclusions>
+            <exclusion>
+               <!-- Already included in com.sun.activation:jakarta.activation -->
+               <groupId>jakarta.activation</groupId>
+               <artifactId>jakarta.activation-api</artifactId>
+            </exclusion>
+         </exclusions>
+      </dependency>
+      <dependency>
+         <groupId>org.ow2.easycommons</groupId>
+         <artifactId>easycommons-thread</artifactId>
+         <type>test-jar</type>
+         <scope>test</scope>
+         <version>1.4.1</version>
+      </dependency>
+      <dependency>
+         <groupId>com.sun.mail</groupId>
+         <artifactId>jakarta.mail</artifactId>
+         <scope>test</scope>
+      </dependency>
+   </dependencies>
+
+  <scm>
+    <connection>scm:svn:https://svn.petalslink.org/svnroot/tags/easycommons-util-2.6.1</connection>
+    <developerConnection>scm:svn:https://svn.petalslink.org/svnroot/tags/easycommons-util-2.6.1</developerConnection>
+  </scm>
+</project>
