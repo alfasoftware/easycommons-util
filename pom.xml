@@ -836,6 +836,24 @@
             </dependencies>
          </plugin>
          <plugin>
+           <groupId>org.codehaus.mojo</groupId>
+           <artifactId>build-helper-maven-plugin</artifactId>
+           <executions>
+             <execution>
+               <id>add-extra-sources</id>
+               <phase>generate-sources</phase>
+               <goals>
+                 <goal>add-source</goal>
+               </goals>
+               <configuration>
+                 <sources>
+                   <source>${project.build.directory}/sources-extra</source>
+                 </sources>
+               </configuration>
+             </execution>
+           </executions>
+         </plugin>
+         <plugin>
             <!-- attach sources also with SNAPSHOTs (it is enabled in profile ow2-release) -->
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-source-plugin</artifactId>
@@ -958,6 +976,29 @@
                            </resource>
                         </resources>
                      </configuration>
+                  </execution>
+                  <execution>
+                    <id>copy-root-files-for-sources-jar</id>
+                    <phase>prepare-package</phase>
+                    <goals>
+                        <goal>copy-resources</goal>
+                    </goals>
+                    <configuration>
+                        <outputDirectory>
+                            ${project.build.directory}/sources-extra
+                        </outputDirectory>
+                        <resources>
+                            <resource>
+                                <directory>${project.basedir}</directory>
+                                <includes>
+                                    <include>COPYRIGHT</include>
+                                    <include>LICENSE</include>
+                                    <include>no-check.txt</include>
+                                    <include>README.md</include>
+                                </includes>
+                            </resource>
+                        </resources>
+                    </configuration>
                   </execution>
                </executions>
             </plugin>
@@ -1106,9 +1147,9 @@
                </configuration>
             </plugin>
             <plugin>
-               <groupId>org.codehaus.mojo</groupId>
-               <artifactId>build-helper-maven-plugin</artifactId>
-               <version>3.2.0</version>
+              <groupId>org.codehaus.mojo</groupId>
+              <artifactId>build-helper-maven-plugin</artifactId>
+              <version>3.2.0</version>
             </plugin>
             <plugin>
                <groupId>org.eclipse.m2e</groupId>
@@ -1204,7 +1245,7 @@
                <groupId>org.apache.maven.plugins</groupId>
                <artifactId>maven-project-info-reports-plugin</artifactId>
                <version>3.1.1</version>
-	    </plugin>
+        </plugin>
       </plugins>
       </pluginManagement>
       <defaultGoal>install</defaultGoal>
