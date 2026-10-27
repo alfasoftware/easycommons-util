@@ -19,7 +19,7 @@
 
   <groupId>org.ow2.easycommons</groupId>
   <artifactId>easycommons-util</artifactId>
-  <version>2.6.1-alfa1001</version>
+  <version>2.6.1-alfa1002</version>
   <packaging>jar</packaging>
 
   <properties>
@@ -30,7 +30,7 @@
 
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-	  <!-- overridden as moved to git -->
+      <!-- overridden as moved to git -->
       <maven-enforcer-plugin.rules.scm>false</maven-enforcer-plugin.rules.scm>
       <maven-enforcer-plugin.rules.dependency>true</maven-enforcer-plugin.rules.dependency>
       <maven-enforcer-plugin.rules.bannedDependencies>true</maven-enforcer-plugin.rules.bannedDependencies>
